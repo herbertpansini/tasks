@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "238510229065",
+    "project_id": "ztec-tasks",
+    "storage_bucket": "ztec-tasks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238510229065:android:2aab1c5876c7c6454b6198",
+        "android_client_info": {
+          "package_name": "com.ztec.tasks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAsxMzJFn2AqeGR7kjuc9bNLcHFha4g9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
