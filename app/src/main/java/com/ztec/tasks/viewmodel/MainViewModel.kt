@@ -19,7 +19,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         securityPreferences.remove(TaskConstants.USER.NAME)
         securityPreferences.remove(TaskConstants.USER.EMAIL)
         securityPreferences.remove(TaskConstants.USER.PASSWORD)
-        securityPreferences.remove(TaskConstants.USER.DEVICE)
         securityPreferences.remove(TaskConstants.USER.ROLE)
 
         securityPreferences.remove(TaskConstants.HEADER.TOKEN_VALUE)

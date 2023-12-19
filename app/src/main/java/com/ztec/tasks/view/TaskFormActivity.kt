@@ -22,7 +22,7 @@ import com.ztec.tasks.service.model.UserModel
 import com.ztec.tasks.service.repository.SecurityPreferences
 import com.ztec.tasks.viewmodel.TaskFormViewModel
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
 
 class TaskFormActivity: AppCompatActivity(),
                         View.OnClickListener,
@@ -36,15 +36,15 @@ class TaskFormActivity: AppCompatActivity(),
     private var listCompany: List<CompanyModel> = mutableListOf()
     private var listUser: List<UserModel> = mutableListOf()
     private var taskIdentification = 0
+    private val securityPreferences by lazy { SecurityPreferences(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Variáveis da classe
-        viewModel = ViewModelProvider(this).get(TaskFormViewModel::class.java)
+        viewModel = ViewModelProvider(this)[TaskFormViewModel::class.java]
         binding = ActivityTaskFormBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Eventos
         binding.textDelete.setOnClickListener(this)
         binding.buttonDate.setOnClickListener(this)
         binding.buttonHour.setOnClickListener(this)
@@ -55,9 +55,6 @@ class TaskFormActivity: AppCompatActivity(),
         loadDataFromActivity()
 
         observe()
-
-        // Layout
-        setContentView(binding.root)
     }
 
     override fun onClick(v: View) {
@@ -65,11 +62,8 @@ class TaskFormActivity: AppCompatActivity(),
             handleDate()
         } else if (v.id == R.id.button_hour) {
             handleHour()
-//        } else if (v.id == R.id.button_save) {
-//            handleSave()
         } else if (v.id == R.id.text_delete) {
-            val securityPreferences = SecurityPreferences(applicationContext)
-            if ("ROLE_ADMIN".equals(securityPreferences.get(TaskConstants.USER.ROLE))) {
+            if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                 handleDelete()
             } else {
                 toast("Acesso negado")
@@ -184,7 +178,6 @@ class TaskFormActivity: AppCompatActivity(),
             this.description = binding.editDescription.text.toString()
             this.value = binding.editValue.text.toString().replace(',', '.').toDouble()
         }
-
         viewModel.save(task)
     }
 
@@ -244,8 +237,7 @@ class TaskFormActivity: AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                val securityPreferences = SecurityPreferences(applicationContext)
-                if ("ROLE_ADMIN".equals(securityPreferences.get(TaskConstants.USER.ROLE))) {
+                if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                     handleSave()
                 } else {
                     toast("Acesso negado")

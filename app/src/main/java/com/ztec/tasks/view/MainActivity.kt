@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private val securityPreferences by lazy { SecurityPreferences(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +32,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        // Navegação
         setupNavigation()
 
         viewModel.loadUserName()
 
-        // Observadores
         observe()
     }
 
@@ -84,8 +83,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_add -> {
-                val securityPreferences = SecurityPreferences(applicationContext)
-                if ("ROLE_ADMIN".equals(securityPreferences.get(TaskConstants.USER.ROLE))) {
+                if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                     startActivity(Intent(applicationContext, TaskFormActivity::class.java))
                 } else {
                     toast("Acesso negado")

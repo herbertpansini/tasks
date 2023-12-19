@@ -2,27 +2,27 @@ package com.ztec.tasks.service.repository.remote
 
 import com.ztec.tasks.service.model.TaskModel
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TaskService {
-
     @GET("tasks")
     fun list(@Query("user_id") userId: Int, @Query("scheduled_datetime") scheduledDatetime: String): Call<List<TaskModel>>
+
+    @GET("tasks/{id}")
+    fun load(@Path(value = "id", encoded = true) id: Int): Call<TaskModel>
 
     @GET("tasks/balance")
     fun balance(@Query("user_id") userId: Int,
                 @Query("start_scheduled") startScheduled: String,
                 @Query("end_scheduled") endScheduled: String
     ): Call<List<TaskModel>>
-
-    @GET("Task/Next7Days")
-    fun listNext(): Call<List<TaskModel>>
-
-    @GET("Task/Overdue")
-    fun listOverdue(): Call<List<TaskModel>>
-
-    @GET("tasks/{id}")
-    fun load(@Path(value = "id", encoded = true) id: Int): Call<TaskModel>
 
     @POST("tasks")
     @FormUrlEncoded
@@ -44,18 +44,6 @@ interface TaskService {
         @Field("description") description: String,
         @Field("value") value: Double
     ): Call<TaskModel>
-
-    @PUT("Task/Complete")
-    @FormUrlEncoded
-    fun complete(@Field("Id") id: Int): Call<Boolean>
-
-    @PUT("Task/Undo")
-    @FormUrlEncoded
-    fun undo(@Field("Id") id: Int): Call<Boolean>
-
-//    @HTTP(method = "DELETE", path = "tasks", hasBody = true)
-//    @FormUrlEncoded
-//    fun delete(@Field("id") id: Int): Call<Boolean>
 
     @DELETE("tasks/{id}")
     fun delete(@Path(value = "id", encoded = true) id: Int): Call<Boolean>

@@ -15,13 +15,11 @@ import java.util.Calendar
 class BalanceActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: BalanceViewModel
     private lateinit var binding: ActivityBalanceBinding
-
     private val adapter = BalanceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Variáveis da classe
         viewModel = ViewModelProvider(this)[BalanceViewModel::class.java]
         binding = ActivityBalanceBinding.inflate(layoutInflater)
 
@@ -30,12 +28,10 @@ class BalanceActivity : AppCompatActivity(), View.OnClickListener {
 
         var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, this.getMonths())
         binding.spinnerMonth.adapter = adapter
-
         binding.spinnerMonth.setSelection(Calendar.getInstance().get(Calendar.MONTH))
 
         adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, getYears())
         binding.spinnerYear.adapter = adapter
-
         binding.spinnerYear.setSelection(getIndex(Calendar.getInstance().get(Calendar.YEAR).toString()))
 
         binding.buttonFilter.setOnClickListener(this)
@@ -44,7 +40,6 @@ class BalanceActivity : AppCompatActivity(), View.OnClickListener {
 
         observe()
 
-        // Layout
         setContentView(binding.root)
     }
 

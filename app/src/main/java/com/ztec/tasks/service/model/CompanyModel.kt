@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class CompanyModel {
     @SerializedName("id")
-    val id: Int = 0
+    val id = 0
 
     @SerializedName("name")
-    val name: String = ""
+    val name = ""
 }

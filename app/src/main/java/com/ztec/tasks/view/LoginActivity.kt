@@ -18,24 +18,21 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private val securityPreferences by lazy { SecurityPreferences(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Variáveis da classe
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
-        // Layout
         setContentView(binding.root)
 
-        // Eventos
         binding.buttonLogin.setOnClickListener(this)
         binding.textRegister.setOnClickListener(this)
 
         viewModel.verifyAuthentication()
 
-        // Observadores
         observe()
     }
 
@@ -70,10 +67,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
 
-                val securityPreferences = SecurityPreferences(applicationContext)
                 viewModel.doLogin(securityPreferences.get(TaskConstants.USER.EMAIL),
                                   securityPreferences.get(TaskConstants.USER.PASSWORD),
-                                  securityPreferences.get(TaskConstants.USER.DEVICE))
+                                  securityPreferences.get(TaskConstants.USER.DEVICE_TOKEN))
             }
         })
         val info = BiometricPrompt.PromptInfo.Builder()
@@ -88,9 +84,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun handleLogin() {
         val email = binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
-        //TODO: () -> Recuperar instancia do dispositivo toda vez que fizer o login
-        val device = "instancia_do_dispositivo"
+        val deviceToken = securityPreferences.get(TaskConstants.USER.DEVICE_TOKEN)
 
-        viewModel.doLogin(email, password, device)
+        viewModel.doLogin(email, password, deviceToken)
     }
 }

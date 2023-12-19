@@ -26,7 +26,7 @@ class RetrofitClient private constructor() {
             if (!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("http://192.168.15.5:8000/api/")
+                        .baseUrl("http://192.168.15.3:8000/api/")
                         .client(httpClient.build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

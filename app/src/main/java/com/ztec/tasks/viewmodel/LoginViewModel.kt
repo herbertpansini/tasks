@@ -24,17 +24,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val _loggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = _loggedUser
 
-    /**
-     * Faz login usando API
-     */
-    fun doLogin(email: String, password: String, device: String) {
-        personRepository.login(email, password, device, object: APIListener<PersonModel> {
+    fun doLogin(email: String, password: String, deviceToken: String) {
+        personRepository.login(email, password, deviceToken, object: APIListener<PersonModel> {
             override fun onSuccess(result: PersonModel) {
-                securityPreferences.store(TaskConstants.USER.ID, result.id)
+                securityPreferences.store(TaskConstants.USER.ID, result.id.toString())
                 securityPreferences.store(TaskConstants.USER.NAME, result.name)
                 securityPreferences.store(TaskConstants.USER.EMAIL, email)
                 securityPreferences.store(TaskConstants.USER.PASSWORD, password)
-                securityPreferences.store(TaskConstants.USER.DEVICE, device)
                 securityPreferences.store(TaskConstants.USER.ROLE, result.role)
 
                 securityPreferences.store(TaskConstants.HEADER.TOKEN_VALUE, result.token)
@@ -50,9 +46,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    /**
-     * Verifica se usuário está logado
-     */
     fun verifyAuthentication() {
         _loggedUser.value = (securityPreferences.get(TaskConstants.HEADER.TOKEN_VALUE) != "" &&
                              BiometricHelper.isBiometricAvailable(getApplication()))

@@ -12,12 +12,14 @@ import com.ztec.tasks.service.model.ValidationModel
 import com.ztec.tasks.service.repository.CompanyRepository
 import com.ztec.tasks.service.repository.TaskRepository
 import com.ztec.tasks.service.repository.UserRepository
+import com.ztec.tasks.service.repository.remote.FCMSend
 
 class TaskFormViewModel(application: Application) : AndroidViewModel(application) {
 
     private val companyRepository = CompanyRepository(application.applicationContext)
     private val userRepository = UserRepository(application.applicationContext)
     private val taskRepository = TaskRepository(application.applicationContext)
+    private val fcmSend = FCMSend(application.applicationContext)
 
     private val _companyList = MutableLiveData<List<CompanyModel>>()
     val companyList: LiveData<List<CompanyModel>> = _companyList
@@ -67,8 +69,10 @@ class TaskFormViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun save(task: TaskModel) {
-        val listener = object : APIListener<TaskModel>{
+        val listener = object: APIListener<TaskModel>{
             override fun onSuccess(result: TaskModel) {
+                fcmSend.pushNotification(result.deviceToken, "ZTec", result.toString())
+
                 _taskSave.value = ValidationModel()
             }
             override fun onFailure(message: String) {

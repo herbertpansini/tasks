@@ -6,8 +6,8 @@ class TaskConstants private constructor() {
         const val NAME = "name"
         const val EMAIL = "email"
         const val PASSWORD = "password"
-        const val DEVICE = "device"
         const val ROLE = "role"
+        const val DEVICE_TOKEN = "devicetoken"
     }
 
     object HEADER {

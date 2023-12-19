@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 class PersonModel {
     @SerializedName("id")
-    lateinit var id: String
+    var id = 0
 
     @SerializedName("name")
-    lateinit var name: String
+    var name = ""
 
     @SerializedName("role")
-    lateinit var role: String
+    var role = ""
 
     @SerializedName("token")
-    lateinit var token: String
+    var token = ""
 }

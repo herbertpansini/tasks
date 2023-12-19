@@ -13,7 +13,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 open class BaseRepository(val context: Context) {
-
     private fun failResponse(str: String): String {
         return Gson().fromJson(str, String::class.java)
     }
@@ -27,23 +26,15 @@ open class BaseRepository(val context: Context) {
                     listener.onFailure(failResponse(response.errorBody()!!.string()))
                 }
             }
-
             override fun onFailure(call: Call<T>, t: Throwable) {
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
         })
     }
 
-    /**
-     * Verifica se existe conexão com internet
-     */
     fun isConnectionAvailable(): Boolean {
         var result = false
-
-        // Gerenciador de conexão
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        // Verifica versão do sistema rodando a aplicação
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNet = cm.activeNetwork ?: return false
             val netWorkCapabilities = cm.getNetworkCapabilities(activeNet) ?: return false
@@ -62,7 +53,6 @@ open class BaseRepository(val context: Context) {
                 }
             }
         }
-
         return result
     }
 }

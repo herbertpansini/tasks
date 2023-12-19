@@ -9,30 +9,31 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.ztec.tasks.R
 import com.ztec.tasks.databinding.ActivityRegisterBinding
+import com.ztec.tasks.service.constants.TaskConstants
+import com.ztec.tasks.service.repository.SecurityPreferences
 import com.ztec.tasks.viewmodel.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var viewModel: RegisterViewModel
     private lateinit var binding: ActivityRegisterBinding
+    private val securityPreferences by lazy { SecurityPreferences(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Variáveis da classe
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
         binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         observe()
-
-        // Layout
-        setContentView(binding.root)
     }
 
     private fun observe() {
         viewModel.user.observe(this) {
             if (it.status()) {
                 startActivity(Intent(this, MainActivity::class.java))
+                finish()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
@@ -44,9 +45,9 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
         val passwordConfirmation = binding.editPasswordConfirmation.text.toString()
-        //TODO: () -> Recuperar instancia do dispositivo toda vez que registrar um novo usuario
-        val device = "instancia_do_dispositivo"
-        viewModel.register(name, email, password, passwordConfirmation, device)
+        val deviceToken = securityPreferences.get(TaskConstants.USER.DEVICE_TOKEN)
+
+        viewModel.register(name, email, password, passwordConfirmation, deviceToken)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

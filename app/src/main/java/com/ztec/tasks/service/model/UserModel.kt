@@ -4,7 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 class UserModel {
     @SerializedName("id")
-    val id: Int = 0
+    val id = 0
     @SerializedName("name")
-    val name: String = ""
+    val name = ""
+    @SerializedName("email")
+    val email = ""
+    @SerializedName("role")
+    val role = ""
+    @SerializedName("device_token")
+    val deviceToken = ""
 }

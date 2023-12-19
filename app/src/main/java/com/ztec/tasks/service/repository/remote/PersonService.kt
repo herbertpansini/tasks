@@ -7,13 +7,12 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface PersonService {
-
     @POST("login")
     @FormUrlEncoded
     fun login(
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("device") device: String
+        @Field("device_token") deviceToken: String
     ): Call<PersonModel>
 
     @POST("register")
@@ -23,7 +22,6 @@ interface PersonService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String,
-        @Field("device") device: String
-
+        @Field("device_token") deviceToken: String
     ): Call<PersonModel>
 }
