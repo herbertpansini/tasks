@@ -17,6 +17,7 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="descricao">Descrição</string>
     <string name="valor">Valor</string>
+    <string name="comentario">Comentário</string>
     <string name="prioridade">Prioridade</string>
     <string name="data_limite">Data Limite</string>
     <string name="update_task">Atualizar tarefa</string>

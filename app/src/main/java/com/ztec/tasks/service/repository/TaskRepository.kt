@@ -49,7 +49,7 @@ class TaskRepository(context: Context) : BaseRepository(context) {
             listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
             return
         }
-        val call = remote.update(task.id, task.companyId, task.userId, task.scheduledDatetime, task.description, task.value)
+        val call = remote.update(task.id, task.companyId, task.userId, task.scheduledDatetime, task.description, task.value, task.comment)
         executeCall(call, listener)
     }
 

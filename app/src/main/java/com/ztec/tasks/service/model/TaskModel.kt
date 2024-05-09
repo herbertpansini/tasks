@@ -34,10 +34,14 @@ class TaskModel {
     @SerializedName("value")
     var value = 0.0
 
+    @SerializedName("comment")
+    var comment: String? = null
+
     @SerializedName("device_token")
     var deviceToken = ""
 
     override fun toString(): String {
-        return "[$companyName] - $userName \t\t ${SimpleDateFormat("HH:mm").format(SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(scheduledDatetime))}\n$description"
+        return "[$companyName] - $userName \t\t ${SimpleDateFormat("HH:mm").format(SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(scheduledDatetime))}\n$description" +
+                "${if (comment.isNullOrEmpty()) "" else "\n" + comment }"
     }
 }

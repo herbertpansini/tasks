@@ -42,7 +42,8 @@ interface TaskService {
         @Field("user_id") userId: Int,
         @Field("scheduled_datetime") scheduledDatetime: String,
         @Field("description") description: String,
-        @Field("value") value: Double
+        @Field("value") value: Double,
+        @Field("comment") comment: String?
     ): Call<TaskModel>
 
     @DELETE("tasks/{id}")

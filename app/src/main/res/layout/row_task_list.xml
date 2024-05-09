@@ -36,6 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_company" />
 
+    <TextView
+        android:id="@+id/text_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/comentario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_description" />
+
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
@@ -44,6 +53,6 @@
         android:background="#ececec"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_description" />
+        app:layout_constraintTop_toBottomOf="@id/text_comment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

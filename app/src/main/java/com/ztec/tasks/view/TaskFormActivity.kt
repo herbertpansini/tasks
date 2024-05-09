@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.ztec.tasks.R
 import com.ztec.tasks.databinding.ActivityTaskFormBinding
 import com.ztec.tasks.service.constants.TaskConstants
@@ -21,6 +22,10 @@ import com.ztec.tasks.service.model.TaskModel
 import com.ztec.tasks.service.model.UserModel
 import com.ztec.tasks.service.repository.SecurityPreferences
 import com.ztec.tasks.viewmodel.TaskFormViewModel
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -33,7 +38,9 @@ class TaskFormActivity: AppCompatActivity(),
     private lateinit var binding: ActivityTaskFormBinding
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private val hourFormat = SimpleDateFormat("HH:mm")
+    private var companyId: Int? = null
     private var listCompany: List<CompanyModel> = mutableListOf()
+    private var userId: Int? = null
     private var listUser: List<UserModel> = mutableListOf()
     private var taskIdentification = 0
     private val securityPreferences by lazy { SecurityPreferences(applicationContext) }
@@ -48,13 +55,18 @@ class TaskFormActivity: AppCompatActivity(),
         binding.textDelete.setOnClickListener(this)
         binding.buttonDate.setOnClickListener(this)
         binding.buttonHour.setOnClickListener(this)
+    }
 
-        viewModel.loadCompanies()
-        viewModel.loadUsers()
-
-        loadDataFromActivity()
-
-        observe()
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch(IO) {
+            loadDataFromActivity()
+            viewModel.loadCompanies()
+            viewModel.loadUsers()
+            withContext(Main) {
+                observe()
+            }
+        }
     }
 
     override fun onClick(v: View) {
@@ -89,6 +101,10 @@ class TaskFormActivity: AppCompatActivity(),
             }
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, list)
             binding.spinnerCompany.adapter = adapter
+
+            companyId?.let {
+                binding.spinnerCompany.setSelection(getIndexCompany(it))
+            }
         }
 
         viewModel.userList.observe(this) {
@@ -99,6 +115,10 @@ class TaskFormActivity: AppCompatActivity(),
             }
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, list)
             binding.spinnerUser.adapter = adapter
+
+            userId?.let {
+                binding.spinnerUser.setSelection(getIndexUser(it))
+            }
         }
 
         viewModel.taskSave.observe(this) {
@@ -115,8 +135,16 @@ class TaskFormActivity: AppCompatActivity(),
         }
 
         viewModel.task.observe(this) {
-            binding.spinnerCompany.setSelection(getIndexCompany(it.companyId))
-            binding.spinnerUser.setSelection(getIndexUser(it.userId))
+            companyId = it.companyId
+            userId = it.userId
+
+            if (listCompany.isNotEmpty()) {
+                binding.spinnerCompany.setSelection(getIndexCompany(it.companyId))
+            }
+
+            if (listUser.isNotEmpty()) {
+                binding.spinnerUser.setSelection(getIndexUser(it.userId))
+            }
 
             val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(it.scheduledDatetime)
             binding.buttonDate.text = SimpleDateFormat("dd/MM/yyyy").format(date)
@@ -124,6 +152,9 @@ class TaskFormActivity: AppCompatActivity(),
 
             binding.editDescription.setText(it.description)
             binding.editValue.setText(it.value.toString().replace('.', ','))
+            binding.editComment.setText(it.comment)
+
+            this.enableOrDisableFields()
         }
 
         viewModel.taskLoad.observe(this) {
@@ -140,6 +171,16 @@ class TaskFormActivity: AppCompatActivity(),
                 finish()
             }
         }
+    }
+
+    private fun enableOrDisableFields() {
+        val isAdmin = ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE))
+        binding.spinnerCompany.isEnabled = isAdmin
+        binding.spinnerUser.isEnabled = isAdmin
+        binding.buttonDate.isEnabled = isAdmin
+        binding.buttonHour.isEnabled = isAdmin
+        binding.editDescription.isEnabled = isAdmin
+        binding.editValue.isEnabled = isAdmin
     }
 
     private fun getIndexCompany(companyId: Int): Int {
@@ -177,6 +218,7 @@ class TaskFormActivity: AppCompatActivity(),
             this.scheduledDatetime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
             this.description = binding.editDescription.text.toString()
             this.value = binding.editValue.text.toString().replace(',', '.').toDouble()
+            this.comment = binding.editComment.text.toString()
         }
         viewModel.save(task)
     }
@@ -237,11 +279,11 @@ class TaskFormActivity: AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
+//                if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                     handleSave()
-                } else {
-                    toast("Acesso negado")
-                }
+//                } else {
+//                    toast("Acesso negado")
+//                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

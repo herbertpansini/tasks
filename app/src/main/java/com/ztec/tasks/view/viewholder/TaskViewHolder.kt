@@ -13,6 +13,7 @@ class TaskViewHolder(private val itemBinding: RowTaskListBinding,
         val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(task.scheduledDatetime)
         itemBinding.textHour.text = SimpleDateFormat("HH:mm").format(date)
         itemBinding.textDescription.text = task.description
+        itemBinding.textComment.text = task.comment
 
         itemView.setOnClickListener { listener.onListClick(task.id) }
     }
