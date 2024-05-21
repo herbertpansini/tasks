@@ -59,7 +59,13 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navView.setNavigationItemSelectedListener {
-            if (it.itemId == R.id.nav_logout) {
+            if (it.itemId == R.id.nav_new_user) {
+                if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
+                    startActivity(Intent(applicationContext, RegisterActivity::class.java))
+                } else {
+                    toast("Acesso negado")
+                }
+            } else if (it.itemId == R.id.nav_logout) {
                 viewModel.logout()
                 startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()

@@ -25,11 +25,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding = ActivityLoginBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         binding.buttonLogin.setOnClickListener(this)
-        binding.textRegister.setOnClickListener(this)
 
         viewModel.verifyAuthentication()
 
@@ -39,12 +37,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         if (v.id == R.id.button_login) {
             handleLogin()
-        } else if (v.id == R.id.text_register) {
-            if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
-                startActivity(Intent(this, RegisterActivity::class.java))
-            } else {
-                Toast.makeText(applicationContext, "Acesso negado", Toast.LENGTH_SHORT).show()
-            }
         }
     }
 

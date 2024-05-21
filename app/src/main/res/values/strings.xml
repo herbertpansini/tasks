@@ -41,6 +41,7 @@
     <string name="sair">Sair</string>
     <string name="expiradas">Expiradas</string>
     <string name="todas_tarefas">Tarefas</string>
+    <string name="novo_usuario">Novo Usuário</string>
     <string name="proximos_7_dias">Próximos 7 dias</string>
 
     <string name="back"><![CDATA[<-]]></string>
