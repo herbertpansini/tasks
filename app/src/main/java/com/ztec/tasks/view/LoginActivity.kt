@@ -40,7 +40,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (v.id == R.id.button_login) {
             handleLogin()
         } else if (v.id == R.id.text_register) {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
+                startActivity(Intent(this, RegisterActivity::class.java))
+            } else {
+                Toast.makeText(applicationContext, "Acesso negado", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
