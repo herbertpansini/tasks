@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                     startActivity(Intent(applicationContext, RegisterActivity::class.java))
                 } else {
-                    toast("Acesso negado")
+                    toast(getString(R.string.access_denied))
                 }
             } else if (it.itemId == R.id.nav_logout) {
                 viewModel.logout()
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 if ("ROLE_ADMIN" == securityPreferences.get(TaskConstants.USER.ROLE)) {
                     startActivity(Intent(applicationContext, TaskFormActivity::class.java))
                 } else {
-                    toast("Acesso negado")
+                    toast(getString(R.string.access_denied))
                 }
                 true
             }
