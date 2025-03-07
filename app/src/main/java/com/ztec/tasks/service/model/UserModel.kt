@@ -6,11 +6,15 @@ class UserModel {
     @SerializedName("id")
     val id = 0
     @SerializedName("name")
-    val name = ""
+    var name = ""
     @SerializedName("email")
-    val email = ""
+    var email = ""
+    @SerializedName("password")
+    var password = ""
+    @SerializedName("password_confirmation")
+    var passwordConfirmation = ""
     @SerializedName("role")
-    val role = ""
+    var role = ""
     @SerializedName("device_token")
-    val deviceToken = ""
+    var deviceToken = ""
 }

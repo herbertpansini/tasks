@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 class TaskViewHolder(private val itemBinding: RowTaskListBinding,
                      private val listener: TaskListener): RecyclerView.ViewHolder(itemBinding.root) {
     fun bindData(task: TaskModel) {
-        itemBinding.textCompany.text = "[${task.companyModel.name}] - ${task.userModel.name}"
+        itemBinding.textCompany.text = "[${task.companyName}] - ${task.userName}"
         val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(task.scheduledDatetime)
         itemBinding.textHour.text = SimpleDateFormat("HH:mm").format(date)
         itemBinding.textDescription.text = task.description

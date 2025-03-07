@@ -33,9 +33,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 securityPreferences.store(TaskConstants.USER.PASSWORD, password)
                 securityPreferences.store(TaskConstants.USER.ROLE, result.role)
 
-                securityPreferences.store(TaskConstants.HEADER.TOKEN_VALUE, result.token)
+                securityPreferences.store(TaskConstants.HEADER.TOKEN_VALUE, "Bearer ${result.token}")
 
-                RetrofitClient.addHeaders(result.token)
+                RetrofitClient.addHeaders("Bearer ${result.token}")
 
                 _login.value = ValidationModel()
             }

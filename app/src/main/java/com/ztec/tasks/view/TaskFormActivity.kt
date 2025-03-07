@@ -212,8 +212,8 @@ class TaskFormActivity: AppCompatActivity(),
     private fun handleSave() {
         val task = TaskModel().apply {
             this.id = taskIdentification
-            this.companyId = listCompany[binding.spinnerCompany.selectedItemPosition].id
             this.userId = listUser[binding.spinnerUser.selectedItemPosition].id
+            this.companyId = listCompany[binding.spinnerCompany.selectedItemPosition].id
             val date = SimpleDateFormat("dd/MM/yyyy HH:mm").parse("${binding.buttonDate.text} ${binding.buttonHour.text}")
             this.scheduledDatetime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)
             this.description = binding.editDescription.text.toString()

@@ -5,6 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface CompanyService {
-    @GET("companies")
+    @GET("api/companies")
     fun list(): Call<List<CompanyModel>>
 }

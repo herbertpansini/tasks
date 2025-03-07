@@ -18,4 +18,12 @@ class UserRepository(context: Context) : BaseRepository(context) {
         }
         executeCall(remote.list(), listener)
     }
+
+    fun register(user: UserModel, listener: APIListener<UserModel>) {
+        if (!isConnectionAvailable()) {
+            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+        executeCall(remote.register(user), listener)
+    }
 }

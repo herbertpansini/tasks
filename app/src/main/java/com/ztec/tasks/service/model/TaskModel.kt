@@ -7,23 +7,17 @@ class TaskModel {
     @SerializedName("id")
     var id = 0
 
-    @SerializedName("company_id")
-    var companyId = 0
-
-    @SerializedName("company_name")
-    var companyName = ""
-
-    @SerializedName("company")
-    var companyModel: CompanyModel = CompanyModel()
-
     @SerializedName("user_id")
     var userId = 0
 
     @SerializedName("user_name")
     var userName = ""
 
-    @SerializedName("user")
-    var userModel: UserModel = UserModel()
+    @SerializedName("company_id")
+    var companyId = 0
+
+    @SerializedName("company_name")
+    var companyName = ""
 
     @SerializedName("scheduled_datetime")
     var scheduledDatetime = ""

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ztec.tasks.R
 import com.ztec.tasks.databinding.ActivityRegisterBinding
 import com.ztec.tasks.service.constants.TaskConstants
+import com.ztec.tasks.service.model.UserModel
 import com.ztec.tasks.service.repository.SecurityPreferences
 import com.ztec.tasks.viewmodel.RegisterViewModel
 
@@ -41,13 +42,16 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun handleSave() {
-        val name = binding.editName.text.toString()
-        val email = binding.editEmail.text.toString()
-        val password = binding.editPassword.text.toString()
-        val passwordConfirmation = binding.editPasswordConfirmation.text.toString()
-        val deviceToken = securityPreferences.get(TaskConstants.USER.DEVICE_TOKEN)
+        val user = UserModel().apply {
+            this.name = binding.editName.text.toString()
+            this.email = binding.editEmail.text.toString()
+            this.password = binding.editPassword.text.toString()
+            this.passwordConfirmation = binding.editPasswordConfirmation.text.toString()
+            this.role = "ROLE_USER"
+            this.deviceToken = ""
+        }
 
-        viewModel.register(name, email, password, passwordConfirmation, deviceToken)
+        viewModel.register(user)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

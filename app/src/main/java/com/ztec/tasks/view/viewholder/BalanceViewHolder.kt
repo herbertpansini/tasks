@@ -9,7 +9,7 @@ import java.util.Locale
 
 class BalanceViewHolder(private val itemBinding: RowBalanceListBinding): RecyclerView.ViewHolder(itemBinding.root) {
     fun bindData(task: TaskModel) {
-        itemBinding.textEmployee.text = task.userModel.name
+        itemBinding.textEmployee.text = task.userName
         itemBinding.textBalance.text = task.value.toString().toBigDecimal().formataParaBr()
     }
 

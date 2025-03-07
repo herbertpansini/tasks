@@ -18,12 +18,4 @@ class PersonRepository(context: Context) : BaseRepository(context) {
         }
         executeCall(remote.login(email, password, deviceToken), listener)
     }
-
-    fun register(name: String, email: String, password: String, passwordConfirmation: String, deviceToken: String, listener: APIListener<PersonModel>) {
-        if (!isConnectionAvailable()) {
-            listener.onFailure(context.getString(R.string.ERROR_INTERNET_CONNECTION))
-            return
-        }
-        executeCall(remote.register(name, email, password, passwordConfirmation, deviceToken), listener)
-    }
 }
