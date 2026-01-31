@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ztec.tasks">
+    package="com.ztec.tarefas">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tasks">
         <activity
-            android:name=".view.BalanceActivity"
+            android:name="com.ztec.tarefas.view.BalanceActivity"
             android:exported="false"
             android:label="@string/app_name" />
         <activity
-            android:name=".view.RegisterActivity"
+            android:name="com.ztec.tarefas.view.RegisterActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:parentActivityName=".view.LoginActivity"/>
+            android:parentActivityName="com.ztec.tarefas.view.LoginActivity"/>
         <activity
-            android:name=".view.LoginActivity"
+            android:name="com.ztec.tarefas.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,17 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.TaskFormActivity"
+            android:name="com.ztec.tarefas.view.TaskFormActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:parentActivityName=".view.MainActivity" />
+            android:parentActivityName="com.ztec.tarefas.view.MainActivity" />
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.ztec.tarefas.view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Tasks.NoActionBar" />
 
-        <service android:name=".service.fcm.FCMService"
+        <service android:name="com.ztec.tarefas.service.fcm.FCMService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

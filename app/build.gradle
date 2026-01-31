@@ -6,12 +6,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    namespace "com.ztec.tarefas"
+
+    compileSdk 35
 
     defaultConfig {
-        applicationId "com.ztec.tasks"
+        applicationId "com.ztec.tarefas"
         minSdk 24
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
